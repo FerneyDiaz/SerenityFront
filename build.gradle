@@ -1,0 +1,76 @@
+defaultTasks 'clean', 'test', 'aggregate'
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.2.0")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    slf4jVersion = '1.7.7'
+    serenityCoreVersion = '3.7.1'
+    serenityCucumberVersion = '3.7.1'
+    junitVersion = '4.12'
+    assertJVersion = '3.8.0'
+    logbackVersion = '1.2.3'
+    restAssured = '5.3.0'
+}
+
+dependencies {
+    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+
+    testCompile "net.serenity-bdd:serenity-core:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-cucumber:${serenityCucumberVersion}",
+            "net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-screenplay-webdriver:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-ensure:${serenityCoreVersion}",
+            "junit:junit:${junitVersion}",
+            "org.assertj:assertj-core:${assertJVersion}",
+            "com.googlecode.json-simple:json-simple:1.1.1",
+            "com.github.lambdatest:lambdatest-tunnel-binary:1.0.16",
+            "com.amazonaws:aws-java-sdk-dynamodb:1.12.6",
+
+    //Rest assured
+            "io.rest-assured:rest-assured:${restAssured}",
+            "io.rest-assured:json-path:${restAssured}",
+            "io.rest-assured:xml-path:${restAssured}",
+            "io.rest-assured:json-schema-validator:${restAssured}",
+            "org.codehaus.groovy:groovy:3.0.6",
+            "org.codehaus.groovy:groovy-xml:3.0.6",
+            "com.google.guava:guava:30.1.1-jre"
+
+
+    // implementation group: 'com.github.lambdatest', name: 'lambdatest-tunnel-binary', version: '1.0.10'
+
+
+}
+configurations.implementation {
+    exclude group: 'org.codehaus.groovy', module: 'groovy-xml'
+    exclude group: 'org.codehaus.groovy', module: 'groovy'
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)

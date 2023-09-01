@@ -1,0 +1,32 @@
+<!--
+
+    Grupo Aval Acciones y Valores S.A. CONFIDENTIAL
+
+    Copyright (c) 2018. All Rights Reserved.
+
+    NOTICE: The source code contained or described herein and all documents
+    related to the source code ("Material") are owned by Grupo Aval Acciones
+    y Valores S.A. or its companies, suppliers or licensors.
+
+    Dissemination of this information or reproduction of this material
+    is strictly forbidden unless prior written permission is obtained
+    from Grupo Aval Acciones y Valores S.A.
+
+-->
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="root" level="DEBUG"/>
+    <logger name="net.serenitybdd" level="INFO"/>
+    <logger name="net.thucydides" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
